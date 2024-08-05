@@ -22,7 +22,7 @@ const ContactMe = () => {
 
   const createMessage = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/posts/message", {
+      const res = await fetch("https://portfolio-backend-9p66.onrender.com/api/posts/message", {
         method: "POST",
         body: JSON.stringify({ name, email, message }),
         headers: {
