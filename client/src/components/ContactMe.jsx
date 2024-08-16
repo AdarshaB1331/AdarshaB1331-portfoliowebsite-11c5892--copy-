@@ -4,11 +4,12 @@ import { FaTwitter } from "react-icons/fa6";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
 const ContactMe = () => {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
-
+  const [disableButton, setDisableButton] = useState(false);
   const onNameChange = (e) => {
     setName(e.target.value);
   };
@@ -21,6 +22,7 @@ const ContactMe = () => {
   };
 
   const createMessage = async () => {
+      setDisableButton(true);
     try {
       const res = await fetch("https://portfolio-backend-9p66.onrender.com/api/posts/message", {
         method: "POST",
@@ -35,15 +37,18 @@ const ContactMe = () => {
         setName("");
         setMessage("");
         setEmail("");
+          setDisableButton(false);
       } else {
         const errorData = await res.json();
         toast.warn(errorData);
+          setDisableButton(false);
       }
     } catch (error) {
       console.error("Error sending the message", error);
     }
   };
   const onFormSubmit = (e) => {
+    
     e.preventDefault();
     if (name === "" || email === "" || message === "") {
       toast.warn("None of the fields can be empty");
@@ -301,6 +306,7 @@ const ContactMe = () => {
                 </div>
 
                 <button
+                   disabled={disableButton}
                   type="submit"
                   style={{
                     color: "white",
